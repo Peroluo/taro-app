@@ -1,18 +1,12 @@
 import Taro, { Component } from "@tarojs/taro";
-import {
-  View,
-  Button,
-  Text,
-  Swiper,
-  SwiperItem,
-  Image
-} from "@tarojs/components";
+import { View, Swiper, SwiperItem, Image } from "@tarojs/components";
 import { connect } from "@tarojs/redux";
 
 import { add, minus, asyncAdd } from "../../actions/counter";
 
 import http from "../../http";
 
+import goodsImg from "../../static/img/goods.png";
 import "./index.less";
 
 @connect(
@@ -32,6 +26,9 @@ import "./index.less";
   })
 )
 class Index extends Component {
+  state = {
+    goodsList: [1, 2, 3, 4, 5, 6]
+  };
   async componentWillMount() {
     console.log(this.$router);
     const data = await http.get("/goods/detail", {
@@ -44,7 +41,7 @@ class Index extends Component {
   }
   componentWillUnmount() {}
   config = {
-    navigationBarTitleText: "完美志愿"
+    navigationBarTitleText: "联家邦独角兽"
   };
   componentDidShow() {
     console.log(this.$router);
@@ -52,12 +49,20 @@ class Index extends Component {
 
   componentDidHide() {}
   render() {
+    const { goodsList } = this.state;
     return (
       <View className="index">
+        <View className="header">
+          <View className="icon"></View>
+          <View className="titleWrap">
+            <View className="title">罗国雄杂货店</View>
+            <View className="subTitle">兴盛你我他，优选人人夸</View>
+          </View>
+        </View>
         <Swiper
           className="swiperContent"
-          indicatorColor="#999"
-          indicatorActiveColor="#333"
+          indicatorColor="#fff"
+          indicatorActiveColor="#00BFFF"
           circular
           indicatorDots
           autoplay
@@ -71,30 +76,32 @@ class Index extends Component {
           <SwiperItem>
             <Image
               className="swiperItem"
-              src="http://yanxuan.nosdn.127.net/65091eebc48899298171c2eb6696fe27.jpg"
+              src="http://yanxuan.nosdn.127.net/bff2e49136fcef1fd829f5036e07f116.jpg"
             ></Image>
           </SwiperItem>
           <SwiperItem>
             <Image
               className="swiperItem"
-              src="http://yanxuan.nosdn.127.net/65091eebc48899298171c2eb6696fe27.jpg"
+              src="http://yanxuan.nosdn.127.net/8e50c65fda145e6dd1bf4fb7ee0fcecc.jpg"
             ></Image>
           </SwiperItem>
         </Swiper>
-        <Button className="add_btn" onClick={this.props.add}>
-          +
-        </Button>
-        <Button className="dec_btn" onClick={this.props.dec}>
-          -
-        </Button>
-        <Button className="dec_btn" onClick={this.props.asyncAdd}>
-          async
-        </Button>
-        <View>
-          <Text>{this.props.counter.num}</Text>
-        </View>
-        <View>
-          <Text>Hello, World</Text>
+        <View className="goodsListWrap">
+          {goodsList.map(item => (
+            <View key={item} className="goodsItem">
+              <Image className="goodsImg" src={goodsImg}></Image>
+              <View className="goodsMsgWrap">
+                <View className="goodsMsg">
+                  <View className="goodsName">人肉强棒棒</View>
+                  <View className="goodsPrice">￥75.00</View>
+                </View>
+                <View className="goodsBuy">
+                  <View className="goodsSell">人气 {item + 100}</View>
+                  <View className="buyBtn">购买</View>
+                </View>
+              </View>
+            </View>
+          ))}
         </View>
       </View>
     );

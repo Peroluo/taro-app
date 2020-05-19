@@ -1,5 +1,5 @@
 import Taro, { Component } from "@tarojs/taro";
-import { View, Swiper, SwiperItem, Button } from "@tarojs/components";
+import { View, ScrollView, Button } from "@tarojs/components";
 import Tab from "../../components/tab/index";
 import "./index.less";
 
@@ -18,34 +18,13 @@ class Index extends Component {
   componentDidHide() {}
   render() {
     return (
-      <View className="index">
-        <Swiper
-          indicatorColor="#999"
-          indicatorActiveColor="#333"
-          vertical
-          circular
-          indicatorDots
-          autoplay
-        >
-          <SwiperItem>
-            <View className="demo-text-1">1</View>
-          </SwiperItem>
-          <SwiperItem>
-            <View className="demo-text-2">2</View>
-          </SwiperItem>
-          <SwiperItem>
-            <View className="demo-text-3">3</View>
-          </SwiperItem>
-        </Swiper>
-        <Button
-          onClick={() => {
-            Taro.navigateTo({
-              url: "/pages/detail/index?id=2&type=test'"
-            });
-          }}
-        >
-          回到首页
-        </Button>
+      <ScrollView
+        className="scrollView"
+        scrollY
+        onScroll={e => {
+          console.log(e.detail.scrollTop);
+        }}
+      >
         <Tab
           onStart={() => {
             Taro.switchTab({
@@ -55,7 +34,18 @@ class Index extends Component {
         >
           回去
         </Tab>
-      </View>
+        <View className="content"></View>
+
+        <Button
+          onClick={() => {
+            Taro.navigateTo({
+              url: "/pages/detail/index?id=2&type=test'"
+            });
+          }}
+        >
+          回到首页
+        </Button>
+      </ScrollView>
     );
   }
 }
